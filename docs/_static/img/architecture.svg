@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" width="960" height="430" font-family="Lato, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#404040"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="960" height="430" fill="#ffffff"/>
+
+  <!-- column labels -->
+  <text x="120" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">Your code</text>
+  <text x="480" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">Simulator (MuJoCo backend)</text>
+  <text x="835" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">Firmware (SITL)</text>
+
+  <!-- left boxes -->
+  <rect x="20" y="60" width="200" height="110" rx="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="120" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">cflib script</text>
+  <text x="120" y="114" text-anchor="middle" font-size="12.5" fill="#333">cfclient (SITL checkbox)</text>
+  <text x="120" y="133" text-anchor="middle" font-size="12.5" fill="#333">Crazyswarm2 (ROS 2)</text>
+  <text x="120" y="155" text-anchor="middle" font-size="11.5" fill="#666">same code as for hardware</text>
+
+  <rect x="20" y="270" width="200" height="90" rx="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="120" y="302" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">AI-deck client</text>
+  <text x="120" y="324" text-anchor="middle" font-size="12.5" fill="#333">fpv.py, OpenCV viewer,</text>
+  <text x="120" y="342" text-anchor="middle" font-size="12.5" fill="#333">your vision pipeline</text>
+
+  <!-- middle boxes -->
+  <rect x="360" y="50" width="240" height="190" rx="8" fill="#fdf2e6" stroke="#e67e22" stroke-width="2"/>
+  <text x="480" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">crazysim.py</text>
+  <text x="480" y="104" text-anchor="middle" font-size="12.5" fill="#333">rigid-body physics @ 1 kHz</text>
+  <text x="480" y="123" text-anchor="middle" font-size="12.5" fill="#333">motor model, drag, ground effect,</text>
+  <text x="480" y="142" text-anchor="middle" font-size="12.5" fill="#333">downwash, wind</text>
+  <text x="480" y="165" text-anchor="middle" font-size="12.5" fill="#333">IMU · baro · pose · multiranger</text>
+  <text x="480" y="184" text-anchor="middle" font-size="12.5" fill="#333">flow deck · LEDs · FPV camera</text>
+  <text x="480" y="210" text-anchor="middle" font-size="12" fill="#666">scene: scene.xml or -s my_scene.xml</text>
+  <text x="480" y="228" text-anchor="middle" font-size="12" fill="#666">one process for all N drones</text>
+
+  <rect x="360" y="290" width="240" height="80" rx="8" fill="#fdf2e6" stroke="#e67e22" stroke-width="2"/>
+  <text x="480" y="320" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">crazysim_cpx.py</text>
+  <text x="480" y="342" text-anchor="middle" font-size="12.5" fill="#333">emulates the AI-deck ESP32</text>
+  <text x="480" y="360" text-anchor="middle" font-size="12.5" fill="#333">(CPX bridge)</text>
+
+  <!-- right boxes (stacked) -->
+  <rect x="752" y="78" width="180" height="84" rx="8" fill="#e9f7ef" stroke="#27ae60" stroke-width="2"/>
+  <rect x="744" y="70" width="180" height="84" rx="8" fill="#e9f7ef" stroke="#27ae60" stroke-width="2"/>
+  <rect x="736" y="62" width="180" height="84" rx="8" fill="#e9f7ef" stroke="#27ae60" stroke-width="2"/>
+  <text x="826" y="92" text-anchor="middle" font-size="15" font-weight="bold" fill="#222">cf2  (× N)</text>
+  <text x="826" y="114" text-anchor="middle" font-size="12.5" fill="#333">Crazyflie firmware, built</text>
+  <text x="826" y="130" text-anchor="middle" font-size="12.5" fill="#333">for Linux (sitl_make)</text>
+  <text x="826" y="192" text-anchor="middle" font-size="12" fill="#666">estimator, controller,</text>
+  <text x="826" y="209" text-anchor="middle" font-size="12" fill="#666">commander, params, logs</text>
+  <text x="826" y="226" text-anchor="middle" font-size="12" fill="#666">all run unmodified</text>
+
+  <!-- arrows: cflib <-> crazysim -->
+  <line x1="222" y1="105" x2="356" y2="105" stroke="#404040" stroke-width="2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text x="289" y="96" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="bold">UDP :19850+i</text>
+  <text x="289" y="124" text-anchor="middle" font-size="11.5" fill="#555">CRTP (cflib)</text>
+
+  <!-- crazysim <-> firmware -->
+  <line x1="602" y1="100" x2="732" y2="100" stroke="#404040" stroke-width="2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text x="667" y="91" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="bold">UDP :19950+i</text>
+  <text x="667" y="119" text-anchor="middle" font-size="11.5" fill="#555">motors ↓   sensors ↑</text>
+
+  <!-- crazysim -> cpx frames -->
+  <line x1="450" y1="242" x2="450" y2="286" stroke="#404040" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="444" y="268" text-anchor="end" font-size="11.5" fill="#555">frames UDP :5200+i</text>
+
+  <!-- cpx <-> crazysim cflib port -->
+  <line x1="515" y1="286" x2="515" y2="242" stroke="#404040" stroke-width="2" marker-end="url(#ah)" marker-start="url(#ah)"/>
+  <text x="521" y="268" text-anchor="start" font-size="11.5" fill="#555">CRTP UDP :19850</text>
+
+  <!-- client <-> cpx -->
+  <line x1="222" y1="315" x2="356" y2="315" stroke="#404040" stroke-width="2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text x="289" y="306" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="bold">TCP :5050</text>
+  <text x="289" y="334" text-anchor="middle" font-size="11.5" fill="#555">CPX protocol</text>
+
+  <!-- footer -->
+  <text x="480" y="412" text-anchor="middle" font-size="12.5" fill="#444">On hardware only the URI changes: radio://0/80/2M/E7E7E7E7xx  or  tcp://&lt;ai-deck-ip&gt;:5000</text>
+</svg>

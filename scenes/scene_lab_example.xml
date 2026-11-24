@@ -1,0 +1,97 @@
+<mujoco model="CrazySim example lab">
+  <!--
+    Example CrazySim scene: a 6 m x 6 m room with furniture, a landing pad,
+    a gate to fly through, and a box the drones can push.
+
+    Keep the <option>, <compiler> and <visual> blocks from CrazySim's
+    scene.xml: crazysim.py relies on them (1 kHz RK4, air density for drag,
+    inertiafromgeom="false").
+
+    Run it:
+      bash tools/crazyflie-simulation/simulator_files/mujoco/launch/sitl_singleagent.sh \
+          -s ~/my_code/scenes/scene_lab_example.xml -x -2 -y -2
+  -->
+  <option integrator="RK4" density="1.225" viscosity="1.8e-5" timestep="0.001"/>
+  <compiler inertiafromgeom="false" autolimits="true"/>
+  <statistic center="0 0 1" extent="3"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.5 0.5 0.5" specular="0 0 0"/>
+    <global azimuth="0" elevation="-20" ellipsoidinertia="true" offwidth="1280" offheight="720"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+             rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+             markrgb="0.8 0.8 0.8" width="512" height="512"/>
+    <material name="groundplane" texture="groundplane" texuniform="true"
+              texrepeat="2 2" reflectance="0.2"/>
+
+    <!-- A checker texture gives the AI-deck camera / optical flow something to see -->
+    <texture name="marker" type="2d" builtin="checker" rgb1="0 0 0" rgb2="1 1 1"
+             width="64" height="64"/>
+    <material name="marker" texture="marker" texuniform="true" texrepeat="8 8"/>
+
+    <material name="wall"     rgba="0.75 0.75 0.78 1"/>
+    <material name="wood"     rgba="0.55 0.38 0.22 1"/>
+    <material name="metal"    rgba="0.45 0.47 0.50 1"/>
+    <material name="pad"      rgba="0.95 0.75 0.10 1"/>
+    <material name="gate"     rgba="0.85 0.20 0.20 1"/>
+    <material name="cardbox"  rgba="0.70 0.55 0.35 1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- ===== Static geometry: put geoms straight in <worldbody> ===== -->
+    <!-- Walls. box size = HALF extents (x y z). -->
+    <geom name="wall_n" type="box" size="3 0.05 1.25" pos="0  3 1.25" material="wall"/>
+    <geom name="wall_s" type="box" size="3 0.05 1.25" pos="0 -3 1.25" material="wall"/>
+    <geom name="wall_e" type="box" size="0.05 3 1.25" pos=" 3 0 1.25" material="wall"/>
+    <geom name="wall_w" type="box" size="0.05 3 1.25" pos="-3 0 1.25" material="wall"/>
+
+    <!-- Group several geoms in a static body (no joint) to keep them together -->
+    <body name="workbench" pos="1.6 1.8 0">
+      <geom type="box" size="0.9 0.4 0.03"  pos="0 0 0.88" material="wood"/>
+      <geom type="box" size="0.03 0.03 0.43" pos=" 0.85  0.35 0.43" material="metal"/>
+      <geom type="box" size="0.03 0.03 0.43" pos="-0.85  0.35 0.43" material="metal"/>
+      <geom type="box" size="0.03 0.03 0.43" pos=" 0.85 -0.35 0.43" material="metal"/>
+      <geom type="box" size="0.03 0.03 0.43" pos="-0.85 -0.35 0.43" material="metal"/>
+    </body>
+
+    <body name="shelf" pos="-2.6 1.0 0" euler="0 0 90">
+      <geom type="box" size="0.8 0.25 0.02" pos="0 0 0.40" material="metal"/>
+      <geom type="box" size="0.8 0.25 0.02" pos="0 0 1.00" material="metal"/>
+      <geom type="box" size="0.8 0.25 0.02" pos="0 0 1.60" material="metal"/>
+      <geom type="box" size="0.02 0.25 0.85" pos=" 0.8 0 0.85" material="metal"/>
+      <geom type="box" size="0.02 0.25 0.85" pos="-0.8 0 0.85" material="metal"/>
+    </body>
+
+    <!-- Gate to fly through: inner opening 0.8 m wide x 0.8 m tall, centre at z=1.0 -->
+    <body name="gate" pos="0 0.5 0">
+      <geom type="cylinder" size="0.03 0.7"  pos=" 0.45 0 0.7" material="gate"/>
+      <geom type="cylinder" size="0.03 0.7"  pos="-0.45 0 0.7" material="gate"/>
+      <geom type="box"      size="0.48 0.03 0.03" pos="0 0 1.43" material="gate"/>
+      <geom type="box"      size="0.48 0.03 0.03" pos="0 0 0.57" material="gate"/>
+    </body>
+
+    <!-- Landing pad: thin, so contype/conaffinity left at default (drones can land on it) -->
+    <geom name="landing_pad" type="cylinder" size="0.25 0.005" pos="-2 -2 0.005" material="pad"/>
+
+    <!-- Visual-only marker on the wall: contype=0 conaffinity=0 means no contacts,
+         but the multiranger rays and AI-deck camera still see it. -->
+    <geom name="wall_marker" type="box" size="0.3 0.005 0.3" pos="0 2.94 1.0"
+          material="marker" contype="0" conaffinity="0"/>
+
+    <!-- ===== Dynamic object: a body with a <freejoint/> ===== -->
+    <!-- With inertiafromgeom="false" you MUST give an <inertial>. -->
+    <body name="box_to_push" pos="1.0 -1.0 0.15">
+      <freejoint/>
+      <inertial pos="0 0 0" mass="0.05" diaginertia="7.5e-4 7.5e-4 7.5e-4"/>
+      <geom type="box" size="0.15 0.15 0.15" material="cardbox" friction="0.6 0.005 0.0001"/>
+    </body>
+  </worldbody>
+</mujoco>

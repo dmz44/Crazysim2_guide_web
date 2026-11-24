@@ -1,0 +1,9 @@
+/* Small tweaks on top of sphinx_rtd_theme */
+.wy-side-nav-search, .wy-nav-top { background-color: #1f4e79; }
+.wy-side-nav-search > a img.logo { max-width: 72px; }
+.wy-nav-content { max-width: 960px; }
+.rst-content table.docutils td, .rst-content table.docutils th { white-space: normal; }
+.rst-content code.literal { color: #1f4e79; }
+.rst-content .admonition-title { font-weight: 600; }
+figure.align-default img, .rst-content img { border: 1px solid #e1e4e5; border-radius: 4px; }
+.rst-content img[src$="logo.svg"] { border: none; }
