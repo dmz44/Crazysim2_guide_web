@@ -28,6 +28,8 @@ moving your code onto real drones.
 | Put walls, furniture or obstacles in the world | {doc}`guides/adding-objects` |
 | Scan a real room/object with a ZED 2 and import it | {doc}`guides/3d-scanned-objects` |
 | Move my code from the simulator to real drones | {doc}`guides/sim2real` |
+| Set up and calibrate the Lighthouse positioning system | {doc}`guides/lighthouse` |
+| Check a real drone before flying it | {doc}`guides/preflight-checklist` |
 
 ## The two repositories
 
@@ -64,10 +66,18 @@ getting-started/container
 guides/single-crazyflie
 guides/multiple-crazyflies
 guides/ai-deck
-guides/real-ai-deck
 guides/adding-objects
 guides/3d-scanned-objects
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: Real drones
+
 guides/sim2real
+guides/lighthouse
+guides/preflight-checklist
+guides/real-ai-deck
 ```
 
 ```{toctree}

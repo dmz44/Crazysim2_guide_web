@@ -7,3 +7,6 @@
 .rst-content .admonition-title { font-weight: 600; }
 figure.align-default img, .rst-content img { border: 1px solid #e1e4e5; border-radius: 4px; }
 .rst-content img[src$="logo.svg"] { border: none; }
+/* Checklists: show checkboxes instead of bullets */
+.rst-content ul.contains-task-list { list-style: none; margin-left: 0.5em; }
+.rst-content ul.contains-task-list li.task-list-item input { margin-right: 0.5em; }

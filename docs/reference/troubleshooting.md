@@ -89,6 +89,12 @@
 
 ## Real hardware
 
+**Lighthouse: "Not receiving", "No geo/calib", or the position jumps**
+: See the troubleshooting table in {doc}`../guides/lighthouse`.
+
+**Drone drifts or flips on take-off**
+: See {doc}`../guides/preflight-checklist`.
+
 **Real AI-deck: no WiFi network, stream stalls, or colors look wrong**
 : See the troubleshooting table in {doc}`../guides/real-ai-deck`.
 

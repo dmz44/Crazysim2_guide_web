@@ -55,7 +55,7 @@ setup:
 
 | Real setup | Simulator setting | Notes |
 |---|---|---|
-| **Lighthouse** deck + base stations | default (external pose) | sim pose is perfect; real Lighthouse has mm-level noise and occlusion dropouts |
+| **Lighthouse** deck + base stations | default (external pose) | sim pose is perfect; real Lighthouse has mm-level noise and occlusion dropouts. Set it up with {doc}`lighthouse` |
 | **Motion capture** (Vicon, OptiTrack, Qualisys) | default (external pose) | real mocap adds latency; send at a steady rate |
 | **Flow deck v2** only | `--flowdeck` | sim disables the external pose so the estimator runs on ToF + optical flow, like the real drone. Real flow needs a textured floor |
 | **Multi-ranger** deck | always on (MuJoCo) | 4 m max range, 10 Hz, same log variables (`range.front`, ...) |
@@ -76,7 +76,7 @@ is where `-x 0 -y 0` spawns a drone, +Z is up. On hardware, the origin and axes
 come from your positioning system (Lighthouse geometry, mocap calibration).
 
 - Pick a physical origin and +X direction in the room (e.g. a tape cross on
-  the floor) and calibrate Lighthouse/mocap to it.
+  the floor) and calibrate Lighthouse/mocap to it ({doc}`lighthouse`, step 5).
 - Place real drones on the floor at the **same coordinates** as the spawn file
   you used in simulation.
 - Scan the room with the ZED starting on that origin, facing +X
@@ -196,14 +196,15 @@ and validate them in CrazySim before hardware:
   the radio.
 - Clip actions to safe limits in the deployment wrapper, not only in training.
 
-## First-flight checklist
+## Before the first real flight
+
+Simulation-side checks:
 
 - [ ] Same model type and measured mass (`-M`) in the final sim runs
 - [ ] Same positioning mode as hardware (`--flowdeck` if Flow-deck only)
 - [ ] Script passed with `--sensor-noise --ground-effect` (+ `--downwash` for swarms)
-- [ ] Real drones placed at the simulated spawn coordinates; frame origin/axes verified
-- [ ] Firmware on the drones is up to date; decks detected in cfclient
-- [ ] Battery charged; props intact; arena clear; nets/cage if available
-- [ ] Arming request in code; safety envelope and land-on-exception in code
-- [ ] Someone ready on the emergency stop
-- [ ] First flight: one drone, low and slow
+- [ ] Real drones placed at the simulated spawn coordinates; Lighthouse origin and +X match the simulator ({doc}`lighthouse`)
+
+Then go through the full {doc}`preflight-checklist`, which covers the
+hardware, the Lighthouse status, a test hover and your script. Do this before
+**every** flight, not just the first.
