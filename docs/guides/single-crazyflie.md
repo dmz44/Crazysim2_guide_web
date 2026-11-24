@@ -113,7 +113,7 @@ pre-flight checks, and runs unchanged on hardware with `--target real`:
 
 ```console
 (container) $ python3 fly_square.py --size 0.5 --height 0.5
-(container) $ python3 fly_square.py --target real --uri radio://0/80/2M/E7E7E7E701   # later
+(container) $ python3 fly_square.py --target real    # later; default URI radio://0/80/2M/E7E7E7E7E7
 ```
 
 ```{literalinclude} ../../examples/fly_square.py

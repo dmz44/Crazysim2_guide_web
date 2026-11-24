@@ -11,6 +11,8 @@ Works unchanged against
     python3 aideck_opencv_viewer.py --save frames/        # also save PNGs
     python3 aideck_opencv_viewer.py --edges               # run Canny on each frame
     python3 aideck_opencv_viewer.py --uri tcp://192.168.4.1:5000
+    # real colour AI-deck running the QQVGA colour streamer (raw Bayer)
+    python3 aideck_opencv_viewer.py --uri tcp://192.168.4.1:5000 --debayer
 
 Frames from the simulator are 324x244 8-bit grayscale (Himax HM01B0 size).
 Real decks may stream raw Bayer, grayscale or JPEG depending on the GAP8
@@ -80,6 +82,8 @@ def main():
     ap.add_argument('--edges', action='store_true', help='show Canny edges too')
     ap.add_argument('--debayer', action='store_true',
                     help='treat frames as Bayer (real colour AI-deck, raw mode)')
+    ap.add_argument('--bayer', default='BG', choices=['BG', 'RG', 'GB', 'GR'],
+                    help='Bayer pattern for --debayer; try RG if red and blue look swapped')
     ap.add_argument('--headless', action='store_true', help='no window (e.g. over SSH)')
     args = ap.parse_args()
 
@@ -107,7 +111,7 @@ def main():
             last_count = count
 
             if args.debayer and img.ndim == 2:
-                img = cv2.cvtColor(img, cv2.COLOR_BayerBG2BGR)
+                img = cv2.cvtColor(img, getattr(cv2, f'COLOR_Bayer{args.bayer}2BGR'))
 
             if args.save:
                 cv2.imwrite(os.path.join(args.save, f'img_{saved:06d}.png'), img)
@@ -123,7 +127,8 @@ def main():
                 cv2.imshow('AI-deck', cv2.resize(img, None, fx=2, fy=2,
                                                  interpolation=cv2.INTER_NEAREST))
                 if args.edges:
-                    cv2.imshow('edges', cv2.Canny(img, 60, 160))
+                    gray = img if img.ndim == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    cv2.imshow('edges', cv2.Canny(gray, 60, 160))
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
     except KeyboardInterrupt:

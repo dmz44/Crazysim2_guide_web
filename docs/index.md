@@ -24,6 +24,7 @@ moving your code onto real drones.
 | Fly one simulated Crazyflie from Python | {doc}`guides/single-crazyflie` |
 | Fly a swarm (cflib or Crazyswarm2) | {doc}`guides/multiple-crazyflies` |
 | Stream the simulated AI-deck camera | {doc}`guides/ai-deck` |
+| Get a real AI-deck streaming (AP mode, color camera) | {doc}`guides/real-ai-deck` |
 | Put walls, furniture or obstacles in the world | {doc}`guides/adding-objects` |
 | Scan a real room/object with a ZED 2 and import it | {doc}`guides/3d-scanned-objects` |
 | Move my code from the simulator to real drones | {doc}`guides/sim2real` |
@@ -63,6 +64,7 @@ getting-started/container
 guides/single-crazyflie
 guides/multiple-crazyflies
 guides/ai-deck
+guides/real-ai-deck
 guides/adding-objects
 guides/3d-scanned-objects
 guides/sim2real

@@ -33,7 +33,7 @@ Quadrotor," *IEEE ICRA*, 2024. <https://github.com/gtfactslab/CrazySim>
 |---|---|
 | [Crazyflie_Simulator_Container](https://github.com/dmz44/Crazyflie_Simulator_Container) | the CrazySim Docker container (Dockerfile, docker-compose) |
 | [Crazysim2_guide_web](https://github.com/dmz44/Crazysim2_guide_web) | this website, example scripts, scenes and tools |
-| [aideck_fixes](https://github.com/dmz44/aideck_fixes) | getting the real AI-deck WiFi streamer stable |
+| [aideck_fixes](https://github.com/dmz44/aideck_fixes) | real AI-deck fixes: firmware updates, AP mode, QQVGA color streamer, OpenCV/YOLO viewers |
 | [zed_camera_docker](https://github.com/dmz44/zed_camera_docker) | ZED camera container, PLY → OBJ conversion |
 | [Crazyswarm_Rangefinder_SLAM](https://github.com/dmz44/Crazyswarm_Rangefinder_SLAM) | Multi-ranger + Flow deck SLAM with Crazyswarm2 and slam_toolbox |
 | [Pybullet_Docker](https://github.com/dmz44/Pybullet_Docker) | PyBullet + Gym simulator for RL training |

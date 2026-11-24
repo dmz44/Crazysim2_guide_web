@@ -74,5 +74,5 @@
   <text x="289" y="334" text-anchor="middle" font-size="11.5" fill="#555">CPX protocol</text>
 
   <!-- footer -->
-  <text x="480" y="412" text-anchor="middle" font-size="12.5" fill="#444">On hardware only the URI changes: radio://0/80/2M/E7E7E7E7xx  or  tcp://&lt;ai-deck-ip&gt;:5000</text>
+  <text x="480" y="412" text-anchor="middle" font-size="12.5" fill="#444">On hardware only the URI changes: radio://0/80/2M/E7E7E7E7E7  or  tcp://192.168.4.1:5000</text>
 </svg>

@@ -8,7 +8,7 @@ logging the state estimate to a CSV so you can compare sim and real runs.
     # simulator (default)
     python3 fly_square.py
     # real drone over Crazyradio
-    python3 fly_square.py --target real --uri radio://0/80/2M/E7E7E7E701
+    python3 fly_square.py --target real                 # radio://0/80/2M/E7E7E7E7E7 (Bitcraze default)
     # bigger square, higher, slower
     python3 fly_square.py --size 1.0 --height 0.8 --speed 0.3
 

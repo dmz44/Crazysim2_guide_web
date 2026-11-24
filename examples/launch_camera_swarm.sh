@@ -11,7 +11,13 @@
 #   bash ~/my_code/examples/launch_camera_swarm.sh [-s scene.xml] [-m model] X0,Y0 X1,Y1 ...
 #   bash ~/my_code/examples/launch_camera_swarm.sh -s ~/my_code/scenes/scene_lab_example.xml -- -2,-1 -2,0
 #
-# Rendering N cameras is GPU-heavy; drop --cam-fps or the resolution if the
+# Camera settings go in CAM_ARGS, e.g. to mimic a real colour AI-deck running
+# the QQVGA streamer (162 x 122, ~2.5 fps):
+#   CAM_ARGS="--cam-width 162 --cam-height 122 --cam-fps 2.5" bash launch_camera_swarm.sh -- 0,0
+#
+# VIS= (set but empty) runs headless, without the viewer window.
+#
+# Rendering N cameras is GPU-heavy; lower --cam-fps or the resolution if the
 # real-time factor falls below 1.
 
 FW_DIR="${FW_DIR:-$HOME/CrazySim/crazyflie-firmware}"
@@ -51,5 +57,5 @@ for ((i = 0; i < N; i++)); do
 done
 sleep 1
 
-python3 "$SIM_DIR/crazysim.py" --model-type "$MODEL" --port 19950 --vis --camera \
-	$SCENE_ARG -- "${SPAWNS[@]}"
+python3 "$SIM_DIR/crazysim.py" --model-type "$MODEL" --port 19950 ${VIS---vis} --camera \
+	$CAM_ARGS $SCENE_ARG -- "${SPAWNS[@]}"

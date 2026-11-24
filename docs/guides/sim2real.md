@@ -59,7 +59,7 @@ setup:
 | **Motion capture** (Vicon, OptiTrack, Qualisys) | default (external pose) | real mocap adds latency; send at a steady rate |
 | **Flow deck v2** only | `--flowdeck` | sim disables the external pose so the estimator runs on ToF + optical flow, like the real drone. Real flow needs a textured floor |
 | **Multi-ranger** deck | always on (MuJoCo) | 4 m max range, 10 Hz, same log variables (`range.front`, ...) |
-| **AI-deck** | `sitl_camera.sh` | see {doc}`ai-deck` for the differences |
+| **AI-deck** | `sitl_camera.sh` | see {doc}`ai-deck` for the differences and {doc}`real-ai-deck` for the hardware setup |
 | no positioning deck | — | the real drone cannot hold position; use attitude/thrust control only |
 
 :::{warning}
@@ -92,8 +92,8 @@ come from your positioning system (Lighthouse geometry, mocap calibration).
 
 | | Simulator | Real hardware |
 |---|---|---|
-| Drone *i* over radio | `udp://127.0.0.1:{19850+i}` | `radio://0/80/2M/E7E7E7E7xx` (channel / data rate / address set in cfclient) |
-| AI-deck | `tcp://127.0.0.1:{5050+i}` | `tcp://192.168.4.1:5000` (AP mode) or `tcp://<deck IP>:5000` (station mode) |
+| Drone *i* over radio | `udp://127.0.0.1:{19850+i}` | `radio://0/80/2M/E7E7E7E7E7` (Bitcraze default; give each drone its own address for swarms) |
+| AI-deck | `tcp://127.0.0.1:{5050+i}` | `tcp://192.168.4.1:5000` (AP mode, see {doc}`real-ai-deck`) |
 
 Keep the URI out of the flight logic. Either pass it as an argument
 (`fly_square.py --target real --uri ...`) or use cflib's environment-variable
@@ -101,7 +101,7 @@ helper:
 
 ```python
 from cflib.utils import uri_helper
-URI = uri_helper.uri_from_env(default='udp://127.0.0.1:19850')   # export CFLIB_URI=radio://0/80/2M/E7E7E7E701
+URI = uri_helper.uri_from_env(default='udp://127.0.0.1:19850')   # export CFLIB_URI=radio://0/80/2M/E7E7E7E7E7
 ```
 
 For swarms, keep a small table of sim ↔ real URIs, or two `crazyflies.yaml`
@@ -161,7 +161,7 @@ CSVs:
 
 ```console
 (container) $ python3 fly_square.py --target sim               # writes square_sim.csv
-(container) $ python3 fly_square.py --target real --uri radio://0/80/2M/E7E7E7E701   # square_real.csv
+(container) $ python3 fly_square.py --target real                                      # square_real.csv (default URI radio://0/80/2M/E7E7E7E7E7)
 ```
 
 ```python

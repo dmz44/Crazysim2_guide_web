@@ -89,6 +89,9 @@
 
 ## Real hardware
 
+**Real AI-deck: no WiFi network, stream stalls, or colors look wrong**
+: See the troubleshooting table in {doc}`../guides/real-ai-deck`.
+
 **Crazyradio not found inside the container**
 : Install the udev rules on the host (see
   {doc}`../getting-started/installation`), plug the radio in **before**

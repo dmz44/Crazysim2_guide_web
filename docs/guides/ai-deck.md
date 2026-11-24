@@ -123,15 +123,23 @@ crazysim.py --port 19950 --vis --camera --scene <scene> -- X0,Y0 X1,Y1 ...   # o
 | `--cam-fps` | 20 | real decks stream far slower over WiFi (see below) |
 | `--cam-port` | 5200 | base UDP port for frames (drone *i* uses +i) |
 
+With `examples/launch_camera_swarm.sh`, pass them through `CAM_ARGS`, e.g.
+`CAM_ARGS="--cam-width 162 --cam-height 122 --cam-fps 2.5"` to mimic the
+real color deck.
+
 ## Simulated vs. real AI-deck
 
 | | Simulator | Real AI-deck |
 |---|---|---|
-| URI | `tcp://127.0.0.1:5050` | `tcp://192.168.4.1:5000` (AP mode) or `tcp://<deck IP>:5000` (station mode) |
-| Image | clean 324×244 grayscale | grayscale or raw Bayer (color version), sensor noise, motion blur, auto-exposure |
+| URI | `tcp://127.0.0.1:5050` | `tcp://192.168.4.1:5000` (AP mode, the setup used in this guide) |
+| Image | clean 324×244 grayscale, 70° vertical FOV, centred, no distortion | grayscale QVGA, or raw Bayer at 162×122 (same FOV, half the pixels) with the color fix; lens distortion, noise, motion blur, auto exposure |
 | Frame rate | 20 fps (configurable) | typically a few fps over WiFi; ~2–6 fps is realistic for full-frame grayscale |
 | Latency / drops | none | WiFi latency and dropped packets |
-| Needs | nothing extra | up-to-date ESP32, STM32 and GAP8 firmware — see [aideck_fixes](https://github.com/dmz44/aideck_fixes) |
+| Needs | nothing extra | up-to-date ESP32, STM32 and GAP8 firmware — see {doc}`real-ai-deck` |
+
+To get a real deck streaming (access-point mode, color camera at QQVGA), and to
+match the simulated camera's resolution, FOV and principal point to your deck,
+follow {doc}`real-ai-deck`.
 
 To make simulated vision code robust, **lower `--cam-fps` to what your real
 deck achieves**, add noise/blur in your pipeline during training, and make
